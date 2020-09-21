@@ -1,6 +1,6 @@
-import { AppBar, makeStyles, Toolbar, Typography } from '@material-ui/core';
-import { createStyles, Theme } from '@material-ui/core/styles';
-import React from 'react';
+import { AppBar, makeStyles, Toolbar, Typography } from "@material-ui/core";
+import { createStyles, Theme } from "@material-ui/core/styles";
+import React from "react";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
