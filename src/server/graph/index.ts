@@ -1,15 +1,23 @@
 import { ApolloServer, gql } from "apollo-server-express";
 
-const typeDefs = gql`
-  type Query {
-    hello: String
-  }
+import { makeExecutableSchema } from "graphql-tools";
+import { userResolvers, userTypeDeff } from "./user";
+import { RequestContext } from "../request-context";
+
+
+const queryType = gql`
+    type Query{
+        _keep: Boolean
+    }
 `;
 
-const resolvers = {
-    Query: {
-        hello: () => "Hello world!",
-    },
-};
+const typeDefs = [
+    queryType,
+    userTypeDeff,
+];
 
-export const apolloServer = new ApolloServer({ typeDefs, resolvers });
+const resolvers = { ...userResolvers };
+
+const schema = makeExecutableSchema({ typeDefs, resolvers });
+
+export const apolloServer = new ApolloServer({ schema, context: ({ req }) => new RequestContext(req) });
