@@ -10,4 +10,8 @@ export class ProductsEntity {
     public price: string;
     @Column()
     public imagePath: string;
+    @Column()
+    public count?: number;
+    @Column()
+    public isDisplayed?: number;
 }
