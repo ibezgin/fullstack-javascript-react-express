@@ -1,1 +1,2 @@
-require('./dist/server/main');
+// eslint-disable-next-line no-undef
+require("./dist/server/main");
