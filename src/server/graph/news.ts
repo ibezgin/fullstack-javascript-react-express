@@ -13,8 +13,15 @@ export const newsTypeDeff = gql`
     }
     type NewsMutation {
         addNews(title:String, content:String):Boolean
+        updateNews(value: NewsInput):Boolean
+        deleteNews(id:String):Boolean
     }
     type NewsType{
+        _id:String
+        title:String
+        content:String
+    }
+    input NewsInput {
         _id:String
         title:String
         content:String
@@ -32,5 +39,7 @@ export const newsResolvers: IResolvers<any, RequestContext> = {
     },
     NewsMutation: {
         addNews: (obj, { title, content }, { helpers }) => helpers.sections.news.addNews(title, content),
+        updateNews: async (obj, { value }, { helpers }) => await helpers.sections.news.updateNews(value),
+        deleteNews: async (obj, { id }, { helpers }) => await helpers.sections.news.deleteNews(id),
     },
 };

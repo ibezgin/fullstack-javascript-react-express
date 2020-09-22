@@ -1,6 +1,7 @@
 import { createConnection } from "typeorm";
 import { UserEntity } from "./entities/users";
 import { NewsEntity } from "./entities/news";
+import { ProductsEntity } from "./entities/products";
 
 // const connectionManager = new ConnectionManager();
 
@@ -18,6 +19,7 @@ export const getOrCreateConnection = () => {
             entities: [
                 UserEntity,
                 NewsEntity,
+                ProductsEntity,
             ],
             synchronize: true,
         });
