@@ -9,5 +9,16 @@ export class ProductsEntity {
     @Column()
     public price: string;
     @Column()
-    public imagePath: string;
+    public imagePath?: string;
+    @Column()
+    public count?: number;
+    @Column()
+    public isDisplayed?: boolean;
+    constructor(title: string, price: string, imagePath: string, count: number, isDisplayed: boolean) {
+        this.title = title;
+        this.price = price;
+        this.imagePath = imagePath;
+        this.count = count;
+        this.isDisplayed = isDisplayed;
+    }
 }

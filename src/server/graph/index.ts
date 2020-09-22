@@ -4,6 +4,7 @@ import { makeExecutableSchema } from "graphql-tools";
 import { userResolvers, userTypeDeff } from "./user";
 import { RequestContext } from "../request-context";
 import { newsResolvers, newsTypeDeff } from "./news";
+import { productsTypeDeff, productsResolvers } from "./products";
 
 
 const queryType = gql`
@@ -19,11 +20,32 @@ const typeDefs = [
     queryType,
     userTypeDeff,
     newsTypeDeff,
+    productsTypeDeff,
 ];
 
-const resolvers = { ...userResolvers, ...newsResolvers };
+const resolversArray = [userResolvers, newsResolvers, productsResolvers];
 
-// console.log(resolvers);
+let queryResults = {};
+let mutationResults = {};
+
+resolversArray.forEach(elem => {
+    const query = elem.Query;
+    const mutation = elem.Mutation;
+    // eslint-disable-next-line guard-for-in
+    for (const key in query) {
+        if (query[key]) {
+            queryResults = { ...queryResults, [key]: query[key] };
+        }
+    }
+    for (const key in mutation) {
+        if (mutation[key]) {
+            mutationResults = { ...mutationResults, [key]: mutation[key] };
+        }
+    }
+});
+
+const resolvers = { ...userResolvers, ...newsResolvers, ...productsResolvers, ["Query"]: { ...queryResults }, ["Mutation"]: { ...mutationResults } };
+
 const schema = makeExecutableSchema({ typeDefs, resolvers });
 
 export const apolloServer = new ApolloServer({ schema, context: ({ req }) => new RequestContext(req) });
