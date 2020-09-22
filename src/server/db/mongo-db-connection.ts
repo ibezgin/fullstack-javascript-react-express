@@ -1,5 +1,6 @@
 import { createConnection } from "typeorm";
 import { UserEntity } from "./entities/users";
+import { NewsEntity } from "./entities/news";
 
 // const connectionManager = new ConnectionManager();
 
@@ -16,6 +17,7 @@ export const getOrCreateConnection = () => {
             reconnectTries: Number.MAX_VALUE,
             entities: [
                 UserEntity,
+                NewsEntity,
             ],
             synchronize: true,
         });

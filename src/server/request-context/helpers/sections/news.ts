@@ -9,7 +9,7 @@ export class NewsContextHelper extends AbstractRequestContextHelper {
         return result;
     }
 
-    public async addNews(title: string, content: string) {
+    public addNews(title: string, content: string) {
         const news = new NewsEntity();
         news.content = content;
         news.title = title;

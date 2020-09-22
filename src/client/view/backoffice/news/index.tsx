@@ -1,20 +1,55 @@
 import { Table, Form, Button, notification, Input } from "antd";
-import { useMutation, gql } from "@apollo/client";
+import { useMutation, gql, useQuery } from "@apollo/client";
 import { useCallback, useState } from "react";
 import Modal from "antd/lib/modal/Modal";
 import { UniversalEditor } from "../../../components/univiesal-editor";
+import { useMemo } from "react";
 
 const ADD_NEWS = gql`
-    mutation AddNews($title: String, $content: String, $author: String) {
+    mutation AddNews($title: String, $content: String) {
         news {
-            addNews(title: $title, content: $content, author: $author)
+            addNews(title: $title, content: $content)
+        }
+    }
+`;
+
+const GET_NEWS = gql`
+    query allNews {
+        news {
+            allNews {
+                _id
+                title
+                content
+            }
         }
     }
 `;
 
 export const News = React.memo(() => {
     const [visible, setVisible] = useState<boolean>(false);
+    const [content, setContent] = useState<string>("");
+    const [title, setTitle] = useState<string>("");
+    const [edit] = useState<boolean>(false);
+
+    const allNewsQuery = useQuery(GET_NEWS, {
+        ssr: false,
+    });
+
+    const memoizedAllNews = useMemo(
+        () => allNewsQuery?.data?.news?.allNews || [],
+        [allNewsQuery?.data?.news?.allNews],
+    );
+
+    const addNewsMutation = useAddNewsMutation(
+        allNewsQuery.refetch,
+        setVisible,
+    );
+
     const columns = [
+        {
+            title: "id",
+            dataIndex: "_id",
+        },
         {
             title: "Title",
             dataIndex: "title",
@@ -23,9 +58,10 @@ export const News = React.memo(() => {
             title: "Content",
             dataIndex: "content",
         },
+
         {
-            title: "Author",
-            dataIndex: "author",
+            title: "edit",
+            dataIndex: "edit",
         },
         {
             title: "remove",
@@ -41,9 +77,23 @@ export const News = React.memo(() => {
                 }}
                 width={"1wh"}
                 style={{ margin: "60px" }}
+                title={edit ? "Редактировать" : "Добавить"}
+                onOk={() => {
+                    addNewsMutation(title, content);
+                }}
             >
-                <Input placeholder="title" style={{ marginBottom: "20px" }} />
-                <UniversalEditor />
+                <Form layout="vertical">
+                    <Form.Item label="Title:">
+                        <Input
+                            placeholder="title"
+                            value={title}
+                            onChange={event => {
+                                setTitle(event.target.value);
+                            }}
+                        />
+                    </Form.Item>
+                    <UniversalEditor getContent={setContent} />
+                </Form>
             </Modal>
             <Form.Item labelAlign={"right"} style={{ float: "right" }}>
                 <Button
@@ -55,15 +105,20 @@ export const News = React.memo(() => {
                     ADD NEWS
                 </Button>
             </Form.Item>
-            <Table columns={columns} />
+            <Table columns={columns} dataSource={memoizedAllNews || []} />
         </>
     );
 });
 
-function useAddNewsMutation() {
+function useAddNewsMutation(
+    refetch: () => void,
+    setVisible: (value: boolean) => void,
+) {
     const [mutation] = useMutation(ADD_NEWS, {
         onCompleted: () => {
             notification.success({ message: "Новость добавлена" });
+            refetch();
+            setVisible(false);
         },
         onError: () => {
             notification.error({ message: "Произошла ошибка" });

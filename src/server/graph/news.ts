@@ -31,6 +31,6 @@ export const newsResolvers: IResolvers<any, RequestContext> = {
         allNews: async (obj, props, { helpers }) => await helpers.sections.news.getAll(),
     },
     NewsMutation: {
-        addNews: async (obj, { title, content }, { helpers }) => await helpers.sections.news.addNews(title, content),
+        addNews: (obj, { title, content }, { helpers }) => helpers.sections.news.addNews(title, content),
     },
 };
