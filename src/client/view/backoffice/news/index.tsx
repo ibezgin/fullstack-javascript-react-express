@@ -4,6 +4,8 @@ import { useCallback, useState } from "react";
 import Modal from "antd/lib/modal/Modal";
 import { UniversalEditor } from "../../../components/univiesal-editor";
 import { useMemo } from "react";
+import { editorHtmlCleaner } from "../../../service/utils/editor-html-cleaner";
+import { EditOutlined } from "@ant-design/icons";
 
 const ADD_NEWS = gql`
     mutation AddNews($title: String, $content: String) {
@@ -29,7 +31,7 @@ export const News = React.memo(() => {
     const [visible, setVisible] = useState<boolean>(false);
     const [content, setContent] = useState<string>("");
     const [title, setTitle] = useState<string>("");
-    const [edit] = useState<boolean>(false);
+    const [edit, setEdit] = useState<boolean>(false);
 
     const allNewsQuery = useQuery(GET_NEWS, {
         ssr: false,
@@ -62,6 +64,13 @@ export const News = React.memo(() => {
         {
             title: "edit",
             dataIndex: "edit",
+            render: (e: any, original: any) => (
+                <EditOutlined
+                    onClick={() => {
+                        setEdit(true);
+                    }}
+                />
+            ),
         },
         {
             title: "remove",
@@ -79,7 +88,7 @@ export const News = React.memo(() => {
                 style={{ margin: "60px" }}
                 title={edit ? "Редактировать" : "Добавить"}
                 onOk={() => {
-                    addNewsMutation(title, content);
+                    addNewsMutation(title, editorHtmlCleaner(content));
                 }}
             >
                 <Form layout="vertical">
