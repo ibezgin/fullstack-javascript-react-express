@@ -1,13 +1,31 @@
 import bodyParser from "body-parser";
 import { Router } from "express";
-import { users, getUserById } from "../db";
+import { getUserById } from "../db";
+import { getRepository, getMongoManager } from "typeorm";
+import { UserEntity } from "../db/entities/users";
+
 
 export function apiRouter() {
     const router = Router();
+
+
     router.use(bodyParser.json());
 
-    router.get("/api/users", (req, res) => {
-        res.json(users);
+    router.get("/api/users", async (req, res) => {
+        try {
+            const users = await getRepository(UserEntity).find();
+            res.json(users);
+
+        } catch (ee) {
+            // asdasd
+        }
+    });
+
+    router.post("/api/users", async (req, res) => {
+        const user = new UserEntity("example", "example", "example");
+        const manager = getMongoManager();
+        manager.save(user);
+        res.send("ok");
     });
 
     router.get("/api/user/:userId", (req, res) => {

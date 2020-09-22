@@ -1,7 +1,7 @@
 import path from "path";
 import { Configuration } from "webpack";
 import ManifestPlugin from "webpack-manifest-plugin";
-import cssnano from "cssnano";
+// import cssnano from "cssnano";
 
 import { SERVER_PORT, IS_DEV, WEBPACK_PORT } from "./src/server/config";
 
@@ -73,19 +73,60 @@ const config: Configuration = {
                     {
                         loader: "css-loader",
                         options: {
-                            modules: true,
-                            localsConvention: "camelCase",
-                            sourceMap: IS_DEV,
+                            // modules: true,
+                            // localsConvention: "camelCase",
+                            // sourceMap: IS_DEV,
                         },
                     },
-                    {
-                        loader: "postcss-loader",
-                        options: {
-                            sourceMap: IS_DEV,
-                            plugins: IS_DEV ? [cssnano()] : [],
-                        },
-                    },
+                    // {
+                    //     loader: "postcss-loader",
+                    //     options: {
+                    //         sourceMap: IS_DEV,
+                    //         plugins: IS_DEV ? [cssnano()] : [],
+                    //     },
+                    // },
                 ],
+            },
+            // {
+            //     test: /\.less$/,
+            //     use: [
+            //         {
+            //             loader: "style-loader",
+            //         },
+            //         {
+            //             loader: "css-loader",
+            //         },
+            //         {
+            //             loader: "less-loader",
+            //             options: {
+            //                 lessOptions: {
+            //                     strictMath: true,
+            //                     javascriptEnabled: true,
+
+            //                 },
+            //             },
+            //         },
+            //     ],
+            // },
+            {
+                test: /\.less$/,
+                use: [{
+                    loader: "style-loader",
+                }, {
+                    loader: "css-loader", // translates CSS into CommonJS
+                }, {
+                    loader: "less-loader", // compiles Less to CSS
+                    options: {
+                        lessOptions: {
+                            modifyVars: {
+                                "primary-color": "#1DA57A",
+                                "link-color": "#1DA57A",
+                                "border-radius-base": "2px",
+                            },
+                            javascriptEnabled: true,
+                        },
+                    },
+                }],
             },
             {
                 test: /.jpe?g$|.gif$|.png$|.svg$|.woff$|.woff2$|.ttf$|.eot$/,
