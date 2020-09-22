@@ -3,7 +3,7 @@ import { Entity, ObjectIdColumn, ObjectID, Column } from "typeorm";
 @Entity({ name: "users" })
 export class UserEntity {
     @ObjectIdColumn()
-    public _id!: ObjectID;
+    public _id: ObjectID;
 
     @Column()
     public email?: string;
