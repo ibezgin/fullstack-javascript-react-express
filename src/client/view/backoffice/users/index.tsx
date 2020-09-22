@@ -7,6 +7,9 @@ import { useCallback } from "react";
 import { useMemo } from "react";
 import { CloseCircleOutlined } from "@ant-design/icons";
 import { useState } from "react";
+import { Modal } from "antd";
+
+const { confirm } = Modal;
 
 export const Users = React.memo(() => {
     const { isLoading, data, refetch } = useQuery(
@@ -40,7 +43,12 @@ export const Users = React.memo(() => {
             render: (del: any, original: any) => (
                 <CloseCircleOutlined
                     onClick={() => {
-                        deleteUser(original.id);
+                        confirm({
+                            title: "Вы уверены?",
+                            onOk: () => {
+                                deleteUser(original.id);
+                            },
+                        });
                     }}
                 />
             ),

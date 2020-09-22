@@ -37,3 +37,7 @@
 .ant-layout {
     height: 100vh;
 }
+
+.tox-notifications-container {
+    visibility: hidden;
+}

@@ -18,6 +18,6 @@ export const userResolvers: IResolvers<any, RequestContext> = {
         users: () => ({}),
     },
     UsersQuery: {
-        allUsers: (obj, props, { helpers }) => helpers.sections.user.getAll(),
+        allUsers: async (obj, props, { helpers }) => await helpers.sections.user.getAll(),
     },
 };
