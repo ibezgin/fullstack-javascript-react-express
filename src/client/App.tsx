@@ -4,8 +4,9 @@ import { RootView } from "./view";
 import { ApolloProvider, ApolloClient, InMemoryCache } from "@apollo/client";
 
 export const App = () => {
+    // console.log(window.location);
     const client = new ApolloClient({
-        uri: "http://localhost:3000/graphql",
+        uri: `http://${window.location.host}/graphql`,
         cache: new InMemoryCache(),
     });
     return (
