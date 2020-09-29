@@ -2,6 +2,7 @@ import { createConnection } from "typeorm";
 import { UserEntity } from "./entities/users";
 import { NewsEntity } from "./entities/news";
 import { ProductsEntity } from "./entities/products";
+import { CategoryEntity } from "./entities/category";
 
 // const connectionManager = new ConnectionManager();
 
@@ -20,7 +21,7 @@ export const getOrCreateConnection = () => {
             // password: "darkdark",
             useNewUrlParser: true,
             reconnectTries: Number.MAX_VALUE,
-            entities: [UserEntity, NewsEntity, ProductsEntity],
+            entities: [UserEntity, NewsEntity, ProductsEntity, CategoryEntity],
             synchronize: true,
         });
     }

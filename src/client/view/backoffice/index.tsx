@@ -1,10 +1,12 @@
-import { Layout } from "antd";
+import { Layout, Button, Row, Col } from "antd";
 import { MenuUnfoldOutlined, MenuFoldOutlined } from "@ant-design/icons";
 import { useState } from "react";
 import "antd/dist/antd.less";
 import "./app.css";
 import { BackofficeMenu } from "./menu";
 import { FunctionComponent } from "react";
+import { Link } from "react-router-dom";
+import { Form } from "antd";
 
 interface IProps {
     children?: FunctionComponent;
@@ -35,7 +37,19 @@ export const AppTemplate = React.memo((props: IProps) => {
                 <Header
                     className="site-layout-background"
                     style={{ padding: 0 }}
-                ></Header>
+                >
+                    <Form.Item labelAlign="right">
+                        <Row gutter={[16, 16]} justify="end" align="middle">
+                            <Col style={{ padding: "0px", margin: "20px" }}>
+                                <Link to={"/"}>
+                                    <Button type="primary" size="large">
+                                        {"Перейти на сайт"}
+                                    </Button>
+                                </Link>
+                            </Col>
+                        </Row>
+                    </Form.Item>
+                </Header>
                 <Content
                     className="site-layout-background"
                     style={{

@@ -5,15 +5,13 @@ export const SiteHomePage = React.memo(() => {
     const history = useHistory();
     return (
         <>
-            {
-                <Button
-                    onClick={() => {
-                        history.push("/admin");
-                    }}
-                >
-                    G0 to backoffice
-                </Button>
-            }
+            <Button
+                onClick={() => {
+                    history.push("/admin");
+                }}
+            >
+                G0 to backoffice
+            </Button>
         </>
     );
 });

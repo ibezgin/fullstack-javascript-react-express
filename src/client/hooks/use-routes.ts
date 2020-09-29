@@ -80,6 +80,12 @@ export function useRoutes() {
                     exact: true,
                     icon: UserOutlined,
                 },
+                {
+                    name: "category",
+                    path: "/category",
+                    component: SiteHomePage,
+                    icon: UserOutlined,
+                },
             ],
         },
 
