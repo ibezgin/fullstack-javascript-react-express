@@ -9,11 +9,12 @@ import {
     FileOutlined,
     // TeamOutlined,
     UserOutlined,
-    ShoppingCartOutlined,
+    ShoppingCartOutlined, FileDoneOutlined,
 } from "@ant-design/icons";
 import { SiteTemplate } from "../view/site";
 import { SiteHomePage } from "../view/site/home";
 import { Products } from "../view/backoffice/products";
+import { Category } from "../view/backoffice/category";
 
 interface IRoute {
     name: string,
@@ -63,6 +64,12 @@ export function useRoutes() {
                     path: "/admin/products",
                     component: Products,
                     icon: ShoppingCartOutlined,
+                },
+                {
+                    name: "Category",
+                    path: "/admin/category",
+                    component: Category,
+                    icon: FileDoneOutlined,
                 },
             ],
 

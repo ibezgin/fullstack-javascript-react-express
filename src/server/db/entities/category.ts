@@ -8,4 +8,9 @@ export class CategoryEntity {
     public title: string;
     @Column()
     public imagePath?: string;
+    constructor(title: string, imagePath: string) {
+        this.title = title;
+        this.imagePath = imagePath;
+
+    }
 }
